@@ -1,0 +1,59 @@
+{
+  "name": "json-csv-transformer",
+  "version": "1.0.0",
+  "description": "transform json to csv, and vice versa",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "jest",
+    "lint": "eslint ./src",
+    "flow": "flow",
+    "build": "babel src -d lib"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kagawagao/json-csv-transformer.git"
+  },
+  "keywords": [
+    "json",
+    "csv",
+    "csv2json",
+    "json2csv",
+    "csv-parser",
+    "json-parser",
+    "json-to-csv"
+  ],
+  "author": {
+    "name": "kagawagao",
+    "email": "kingsongao1221@gmail.com",
+    "url": "https://kingsongao.com"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kagawagao/json-csv-transformer/issues"
+  },
+  "homepage": "https://github.com/kagawagao/json-csv-transformer#readme",
+  "devDependencies": {
+    "@babel/cli": "^7.0.0-beta.46",
+    "@babel/core": "^7.0.0-beta.46",
+    "@babel/preset-env": "^7.0.0-beta.46",
+    "@babel/preset-flow": "^7.0.0-beta.46",
+    "@babel/preset-stage-0": "^7.0.0-beta.46",
+    "babel-core": "^7.0.0-bridge.0",
+    "babel-eslint": "^8.2.3",
+    "babel-jest": "^22.4.3",
+    "babel-plugin-add-module-exports": "^0.2.1",
+    "eslint": "^4.19.1",
+    "eslint-config-standard": "^11.0.0",
+    "eslint-plugin-flowtype": "^2.46.3",
+    "eslint-plugin-import": "^2.11.0",
+    "eslint-plugin-node": "^6.0.1",
+    "eslint-plugin-promise": "^3.7.0",
+    "eslint-plugin-standard": "^3.1.0",
+    "flow-bin": "^0.72.0",
+    "jest": "^22.4.3"
+  },
+  "dependencies": {
+    "iconv-lite": "^0.4.23",
+    "jschardet": "^1.6.0"
+  }
+}
