@@ -77,8 +77,8 @@ describe('CSV', () => {
     })
     const items = require('./data.json')
     const str = csv.parse(items)
-    expect(str).toEqual('"xxx","yyy","zzz","aaa","bbb","ccc"\n"xxx","true","2","Mon Jan 01 2018 00:00:00 GMT+0800 (CST)","bbb","ccc"')
-    expect(csv.toString()).toEqual('"xxx","yyy","zzz","aaa","bbb","ccc"\n"xxx","true","2","Mon Jan 01 2018 00:00:00 GMT+0800 (CST)","bbb","ccc"')
+    expect(str).toEqual('"xxx","yyy","zzz","aaa","bbb","ccc"\n"xxx","false","2","Mon Jan 01 2018 00:00:00 GMT+0800 (CST)","bbb","ccc"')
+    expect(csv.toString()).toEqual('"xxx","yyy","zzz","aaa","bbb","ccc"\n"xxx","false","2","Mon Jan 01 2018 00:00:00 GMT+0800 (CST)","bbb","ccc"')
   })
 
   test('should convert correct with no header', () => {
@@ -105,8 +105,8 @@ describe('CSV', () => {
     })
     const items = require('./data.json')
     const str = csv.parse(items)
-    expect(str).toEqual('"xxx","true","2","Mon Jan 01 2018 00:00:00 GMT+0800 (CST)","bbb","ccc"')
-    expect(csv.toString()).toEqual('"xxx","true","2","Mon Jan 01 2018 00:00:00 GMT+0800 (CST)","bbb","ccc"')
+    expect(str).toEqual('"xxx","false","2","Mon Jan 01 2018 00:00:00 GMT+0800 (CST)","bbb","ccc"')
+    expect(csv.toString()).toEqual('"xxx","false","2","Mon Jan 01 2018 00:00:00 GMT+0800 (CST)","bbb","ccc"')
   })
 
   test('should parse correct', (done) => {
@@ -128,14 +128,64 @@ describe('CSV', () => {
     })
   })
 
+  test('should parse correct', (done) => {
+    const csv = new CSV({
+      schema
+    })
+    expect(csv.toJSON()).toEqual([])
+
+    fs.readFile(path.resolve(__dirname, './data2.csv'), (err, data) => {
+      if (err) {
+        throw err
+      }
+
+      csv.parse(data)
+      const originData = require('./data2.json')
+      originData[0].aaa = new Date(originData[0].aaa)
+      expect(csv.toJSON()).toEqual(originData)
+      done()
+    })
+  })
+
+  test('should parse correct', (done) => {
+    const csv = new CSV({
+      schema
+    })
+    expect(csv.toJSON()).toEqual([])
+
+    fs.readFile(path.resolve(__dirname, './data3.csv'), (err, data) => {
+      if (err) {
+        throw err
+      }
+
+      csv.parse(data)
+      const originData = require('./data3.json')
+      originData[0].aaa = new Date(originData[0].aaa)
+      expect(csv.toJSON()).toEqual(originData)
+      done()
+    })
+  })
+
+  test('should throw error is parse failed', () => {
+    const csv = new CSV({
+      schema
+    })
+
+    const parse = () => {
+      csv.parse({})
+    }
+
+    expect(parse).toThrowError('Parse failed, please check input data')
+  })
+
   test('should covert correct if directly call convert', () => {
     const csv = new CSV({
       schema
     })
     const items = require('./data.json')
     const str = csv.parse(items)
-    expect(str).toEqual('"xxx","yyy","zzz","aaa","bbb","ccc"\n"xxx","true","2","Mon Jan 01 2018 00:00:00 GMT+0800 (CST)","bbb","ccc"')
-    expect(csv.toString()).toEqual('"xxx","yyy","zzz","aaa","bbb","ccc"\n"xxx","true","2","Mon Jan 01 2018 00:00:00 GMT+0800 (CST)","bbb","ccc"')
+    expect(str).toEqual('"xxx","yyy","zzz","aaa","bbb","ccc"\n"xxx","false","2","Mon Jan 01 2018 00:00:00 GMT+0800 (CST)","bbb","ccc"')
+    expect(csv.toString()).toEqual('"xxx","yyy","zzz","aaa","bbb","ccc"\n"xxx","false","2","Mon Jan 01 2018 00:00:00 GMT+0800 (CST)","bbb","ccc"')
   })
 
   test('should return dataURL', () => {

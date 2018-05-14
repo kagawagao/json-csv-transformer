@@ -202,7 +202,7 @@ export default class CSV {
         const encoding = res.encoding
         this.data = this.decode(buf, encoding)
       } catch (error) {
-        throw new TypeError(`Type: ${typeof buf} is not supported, only support Buffer and String`)
+        throw new Error('Parse failed, please check input data')
       }
     }
     return this.data
@@ -214,6 +214,7 @@ export default class CSV {
    * @memberof CSV
    */
   getDataURL = (): string => {
+    /* istanbul ignore next */
     if (!this.blob) {
       throw new Error('No data')
     } else {
@@ -235,19 +236,28 @@ export default class CSV {
       let temp = data.split('\n')
       // TODO: header check
       temp.shift()
-      temp.pop()
+      // remove empty line
+      temp = temp.filter(temp => temp)
       temp = temp.map((str: string) => {
         const item = {}
         const arr = str.split(',')
         arr.map((s, index) => {
           s = s.substring(1, s.length - 1)
-          const column = columns[index] || {}
+          const column = columns[index]
           switch (column.type) {
             case 'number':
               item[column.key] = parseFloat(s)
               break
             case 'boolean':
-              item[column.key] = s === 'true' || !!s
+              let val
+              if (s === 'true') {
+                val = true
+              } else if (s === 'false') {
+                val = false
+              } else {
+                val = !!s
+              }
+              item[column.key] = val
               break
             case 'date':
               item[column.key] = new Date(s)
