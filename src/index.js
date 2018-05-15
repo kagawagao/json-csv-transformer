@@ -42,8 +42,8 @@ export default class CSV {
    */
   withHeader: boolean;
   /**
-   * Creates an instance of CSV.
-   * @param {CSVOption} option option option
+   * @desc Creates an instance of CSV.
+   * @param {CSVOption} option option
    * @param {Array<Schema>} option.schema schema
    * @param {string} [option.encoding=utf8] encoding
    * @param {boolean} [option.widthHeader=true] with header
@@ -267,7 +267,7 @@ export default class CSV {
 
   /**
    * @desc to string
-   * @return csv data string
+   * @return {string} csv data string
    * @memberof CSV
    */
   toString = (): string => {

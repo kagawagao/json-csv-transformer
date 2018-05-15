@@ -1,0 +1,18 @@
+{
+  "source": "./src",
+  "destination": "./doc",
+  "plugins": [
+    {
+      "name": "esdoc2-standard-plugin"
+    },
+    {
+      "name": "esdoc2-flow-type-plugin"
+    },
+    {
+      "name": "esdoc2-ecmascript-proposal-plugin",
+      "option": {
+        "all": true
+      }
+    }
+  ]
+}
