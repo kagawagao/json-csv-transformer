@@ -77,7 +77,7 @@ describe('CSV', () => {
     })
     const items = require('./data.json')
     csv.parse(items)
-    expect(csv.toString()).toEqual('"xxx","yyy","zzz","aaa","bbb","ccc"\n"xxx","false","2","Mon Jan 01 2018 00:00:00 GMT+0800 (CST)","bbb","ccc"')
+    expect(csv.toString()).toEqual('"xxx","yyy","zzz","aaa","bbb","ccc"\n"xxx","false","2","Mon Jan 01 2018","bbb","ccc"')
   })
 
   test('should convert correct with no header', () => {
@@ -104,7 +104,7 @@ describe('CSV', () => {
     })
     const items = require('./data.json')
     csv.parse(items)
-    expect(csv.toString()).toEqual('"xxx","false","2","Mon Jan 01 2018 00:00:00 GMT+0800 (CST)","bbb","ccc"')
+    expect(csv.toString()).toEqual('"xxx","false","2","Mon Jan 01 2018","bbb","ccc"')
   })
 
   test('should parse correct', (done) => {
@@ -182,7 +182,7 @@ describe('CSV', () => {
     })
     const items = require('./data.json')
     csv.convert(items)
-    expect(csv.toString()).toEqual('"xxx","yyy","zzz","aaa","bbb","ccc"\n"xxx","false","2","Mon Jan 01 2018 00:00:00 GMT+0800 (CST)","bbb","ccc"')
+    expect(csv.toString()).toEqual('"xxx","yyy","zzz","aaa","bbb","ccc"\n"xxx","false","2","Mon Jan 01 2018","bbb","ccc"')
   })
 
   test('should return url in getDataURL', () => {

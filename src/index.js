@@ -112,7 +112,7 @@ export default class CSV {
       case 'number':
         return parseFloat(value)
       case 'date':
-        return new Date(value).toString()
+        return new Date(value).toDateString()
       case 'boolean':
         return (!!value).toString()
       case 'custom':
