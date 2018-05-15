@@ -3,6 +3,7 @@
   "version": "1.0.2",
   "description": "transform json to csv, and vice versa",
   "main": "lib/index.js",
+  "module": "es/index.js",
   "scripts": {
     "test": "jest",
     "prebuild": "npm run test",
