@@ -29,7 +29,7 @@ describe('CSV', () => {
 
     expect(csv).toHaveProperty('schema', schema)
     expect(csv).toHaveProperty('encoding', 'utf8')
-    expect(csv).toHaveProperty('blob', null)
+    expect(csv).toHaveProperty('buffer', null)
     expect(csv).toHaveProperty('data', '')
     expect(csv).toHaveProperty('withHeader', true)
   })
@@ -76,8 +76,7 @@ describe('CSV', () => {
       schema
     })
     const items = require('./data.json')
-    const str = csv.parse(items)
-    expect(str).toEqual('"xxx","yyy","zzz","aaa","bbb","ccc"\n"xxx","false","2","Mon Jan 01 2018 00:00:00 GMT+0800 (CST)","bbb","ccc"')
+    csv.parse(items)
     expect(csv.toString()).toEqual('"xxx","yyy","zzz","aaa","bbb","ccc"\n"xxx","false","2","Mon Jan 01 2018 00:00:00 GMT+0800 (CST)","bbb","ccc"')
   })
 
@@ -104,8 +103,7 @@ describe('CSV', () => {
       withHeader: false
     })
     const items = require('./data.json')
-    const str = csv.parse(items)
-    expect(str).toEqual('"xxx","false","2","Mon Jan 01 2018 00:00:00 GMT+0800 (CST)","bbb","ccc"')
+    csv.parse(items)
     expect(csv.toString()).toEqual('"xxx","false","2","Mon Jan 01 2018 00:00:00 GMT+0800 (CST)","bbb","ccc"')
   })
 
@@ -178,20 +176,22 @@ describe('CSV', () => {
     expect(parse).toThrowError('Parse failed, please check input data')
   })
 
-  test('should covert correct if directly call convert', () => {
+  test('should convert correct if directly call convert', () => {
     const csv = new CSV({
       schema
     })
     const items = require('./data.json')
-    const str = csv.parse(items)
-    expect(str).toEqual('"xxx","yyy","zzz","aaa","bbb","ccc"\n"xxx","false","2","Mon Jan 01 2018 00:00:00 GMT+0800 (CST)","bbb","ccc"')
+    csv.convert(items)
     expect(csv.toString()).toEqual('"xxx","yyy","zzz","aaa","bbb","ccc"\n"xxx","false","2","Mon Jan 01 2018 00:00:00 GMT+0800 (CST)","bbb","ccc"')
   })
 
-  test('should return dataURL', () => {
+  test('should return url in getDataURL', () => {
     const csv = new CSV({
       schema
     })
-    expect(csv.getDataURL).toThrowError('No data')
+    expect(csv.getDataURL()).toBe('')
+    const items = require('./data.json')
+    csv.parse(items)
+    expect(csv.getDataURL()).toBeDefined()
   })
 })

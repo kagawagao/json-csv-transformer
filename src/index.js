@@ -18,17 +18,17 @@ export default class CSV {
    */
   schema: Array<Schema>;
   /**
+   * @desc data buffer
+   * @type {?Buffer}
+   * @memberof CSV
+   */
+  buffer: ?Buffer;
+  /**
    * @desc encoding
    * @type {string}
    * @memberof CSV
    */
   encoding: string;
-  /**
-   * @desc File Blob
-   * @type {?Blob}
-   * @memberof CSV
-   */
-  blob: ?Blob;
   /**
    * @desc csv data string
    * @type {?string}
@@ -55,8 +55,8 @@ export default class CSV {
     this.checkEncoding(encoding)
     this.schema = schema
     this.encoding = encoding
-    this.blob = null
     this.data = ''
+    this.buffer = null
     this.withHeader = !!withHeader
   }
 
@@ -129,9 +129,9 @@ export default class CSV {
    * @return {Buffer} encoded buffer
    * @memberof CSV
    */
-  encode = (str: string, encoding: string = this.encoding): Buffer => {
-    this.checkEncoding(encoding)
-    return iconv.encode(str, encoding)
+  encode = (str: string): Buffer => {
+    this.checkEncoding(this.encoding)
+    return iconv.encode(str, this.encoding)
   }
 
   /**
@@ -141,9 +141,9 @@ export default class CSV {
    * @return {string} decoded string
    * @memberof CSV
    */
-  decode = (buf: Buffer | string, encoding: string = this.encoding): string => {
-    this.checkEncoding(encoding)
-    return iconv.decode(buf, encoding)
+  decode = (buf: Buffer | string): string => {
+    this.checkEncoding(this.encoding)
+    return iconv.decode(buf, this.encoding)
   }
 
   /**
@@ -155,13 +155,13 @@ export default class CSV {
    * @memberof CSV
    */
   convert = (items: Array<{[x: string]: any}>, option?: CustomOption = {}): string => {
-    const encoding = option.encoding
+    this.encoding = option.encoding || 'utf8'
     const columns = this.schema
     const csvArray = []
     const header = []
     const keys = []
 
-    columns.forEach(function (column) {
+    columns.forEach((column) => {
       keys.push(column.key)
       header.push('"' + (column.label || column.key) + '"')
     })
@@ -176,12 +176,8 @@ export default class CSV {
 
     const str = csvArray.join('\n')
 
-    const res = this.encode(str, encoding)
-    this.data = this.decode(res, encoding)
-    this.blob = new Blob([res], {
-      type: 'text/csv'
-    })
-
+    this.buffer = this.encode(str)
+    this.data = this.decode(this.buffer)
     return this.data
   }
 
@@ -199,8 +195,8 @@ export default class CSV {
     } else {
       try {
         const res = jschardet.detect(buf)
-        const encoding = res.encoding
-        this.data = this.decode(buf, encoding)
+        this.encoding = res.encoding
+        this.data = this.decode(buf)
       } catch (error) {
         throw new Error('Parse failed, please check input data')
       }
@@ -214,12 +210,7 @@ export default class CSV {
    * @memberof CSV
    */
   getDataURL = (): string => {
-    /* istanbul ignore next */
-    if (!this.blob) {
-      throw new Error('No data')
-    } else {
-      return URL.createObjectURL(this.blob)
-    }
+    return this.buffer ? `data:text/csv;base64,${this.buffer.toString('base64')}` : ''
   }
 
   /**
