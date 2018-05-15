@@ -3,5 +3,6 @@ node_modules/
 lib/
 es/
 dist/
+docs/
 
 flow-typed
