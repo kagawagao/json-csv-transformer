@@ -40,3 +40,17 @@ csv.toJSON()
 ```
 
 find more use case, please see test
+
+## `Schema`
+
+```js
+Schema = {
+  key: string,
+  label?: string,
+  type?: 'string' | 'boolean' | 'date' | 'number',
+  formatter?: {
+    csv: Function,
+    json: Function
+  }
+};
+```
