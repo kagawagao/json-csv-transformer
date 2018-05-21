@@ -43,14 +43,9 @@ find more use case, please see test
 
 ## `Schema`
 
-```js
-Schema = {
-  key: string,
-  label?: string,
-  type?: 'string' | 'boolean' | 'date' | 'number',
-  formatter?: {
-    csv: Function,
-    json: Function
-  }
-};
-```
+| field | type | required | description |
+| --- | --- | --- | --- |
+| `key` | `string` | `true` | key for this schema |
+| `label` | `string` | `false` | it will display in the header |
+| `type` | `string` \| `boolean` \| `date` \| `number` | `false` | default type is `string`, it will be ignored if `formatter` is present |
+| `formatter` | `{csv: function, json: function}` | `false` | custom formatter, `csv` for transform to `csv`, `json` for transform to `json`
