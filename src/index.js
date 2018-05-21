@@ -230,8 +230,9 @@ export default class CSV {
     } else {
       const data = this.data.replace(/\\r\\n|\\r/g, '\n').replace(/;|\\t|\|\^/g, ',')
       let temp = data.split('\n')
-      // TODO: header check
-      temp.shift()
+      if (this.withHeader) {
+        temp.shift()
+      }
       // remove empty line
       temp = temp.filter(temp => temp)
       temp = temp.map((str: string) => {

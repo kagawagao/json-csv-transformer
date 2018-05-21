@@ -135,7 +135,7 @@ describe('CSV', () => {
       }, {
         key: 'ccc'
       }],
-      withHeader: false
+      withHeader: true
     })
     expect(csv.toJSON()).toEqual([])
 
@@ -171,13 +171,33 @@ describe('CSV', () => {
     })
   })
 
-  test('should parse correct', (done) => {
+  test('should parse correct if value is not boolean but type is boolean', (done) => {
     const csv = new CSV({
       schema
     })
     expect(csv.toJSON()).toEqual([])
 
     fs.readFile(path.resolve(__dirname, './data3.csv'), (err, data) => {
+      if (err) {
+        throw err
+      }
+
+      csv.parse(data)
+      const originData = require('./data3.json')
+      originData[0].aaa = new Date(originData[0].aaa)
+      expect(csv.toJSON()).toEqual(originData)
+      done()
+    })
+  })
+
+  test('should parse correct if csv file has no header', (done) => {
+    const csv = new CSV({
+      schema,
+      withHeader: false
+    })
+    expect(csv.toJSON()).toEqual([])
+
+    fs.readFile(path.resolve(__dirname, './data-no-header.csv'), (err, data) => {
       if (err) {
         throw err
       }
