@@ -18,7 +18,15 @@ const schema = [{
   type: 'string'
 }, {
   key: 'ccc',
-  type: 'custom'
+  type: 'custom',
+  formatter: {
+    csv: (value, key) => {
+      return 'cc'
+    },
+    json: (value, key) => {
+      return 'c'
+    }
+  }
 }]
 
 describe('CSV', () => {
@@ -77,7 +85,7 @@ describe('CSV', () => {
     })
     const items = require('./data.json')
     csv.parse(items)
-    expect(csv.toString()).toEqual('"xxx","yyy","zzz","aaa","bbb","ccc"\n"xxx","false","2","Mon Jan 01 2018","bbb","ccc"')
+    expect(csv.toString()).toEqual('"xxx","yyy","zzz","aaa","bbb","ccc"\n"xxx","false","2","Mon Jan 01 2018","bbb","cc"')
   })
 
   test('should convert correct with no header', () => {
@@ -109,7 +117,25 @@ describe('CSV', () => {
 
   test('should parse correct', (done) => {
     const csv = new CSV({
-      schema
+      schema: [{
+        key: 'xxx',
+        type: 'string'
+      }, {
+        key: 'yyy',
+        type: 'boolean'
+      }, {
+        key: 'zzz',
+        type: 'number'
+      }, {
+        key: 'aaa',
+        type: 'date'
+      }, {
+        key: 'bbb',
+        type: 'string'
+      }, {
+        key: 'ccc'
+      }],
+      withHeader: false
     })
     expect(csv.toJSON()).toEqual([])
 
@@ -182,7 +208,7 @@ describe('CSV', () => {
     })
     const items = require('./data.json')
     csv.convert(items)
-    expect(csv.toString()).toEqual('"xxx","yyy","zzz","aaa","bbb","ccc"\n"xxx","false","2","Mon Jan 01 2018","bbb","ccc"')
+    expect(csv.toString()).toEqual('"xxx","yyy","zzz","aaa","bbb","ccc"\n"xxx","false","2","Mon Jan 01 2018","bbb","cc"')
   })
 
   test('should return url in getDataURL', () => {

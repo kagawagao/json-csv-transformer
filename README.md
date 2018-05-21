@@ -10,7 +10,7 @@
 [![bitHound Overall Score](https://www.bithound.io/github/kagawagao/json-csv-transformer/badges/score.svg)](https://www.bithound.io/github/kagawagao/json-csv-transformer)
 [![bitHound Dependencies](https://www.bithound.io/github/kagawagao/json-csv-transformer/badges/dependencies.svg)](https://www.bithound.io/github/kagawagao/json-csv-transformer/master/dependencies/npm)
 [![bitHound Dev Dependencies](https://www.bithound.io/github/kagawagao/json-csv-transformer/badges/devDependencies.svg)](https://www.bithound.io/github/kagawagao/json-csv-transformer/master/dependencies/npm)
-[![Coveralls github](https://img.shields.io/coveralls/github/kagawagao/json-csv-transformer.svg)](https://coveralls.io/github/kagawagao/json-csv-transformer)
+[![Coveralls Status](https://img.shields.io/coveralls/github/kagawagao/json-csv-transformer.svg)](https://coveralls.io/github/kagawagao/json-csv-transformer)
 
 ## Install
 

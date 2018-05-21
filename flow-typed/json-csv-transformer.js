@@ -1,7 +1,11 @@
 declare type Schema = {
   key: string,
   label?: string,
-  type: 'string' | 'boolean' | 'date' | 'number' | 'custom'
+  type?: 'string' | 'boolean' | 'date' | 'number',
+  formatter?: {
+    csv: Function,
+    json: Function
+  }
 };
 
 declare type CustomOption = {

@@ -108,17 +108,22 @@ export default class CSV {
    */
   format = (value: any, key: string): string | number => {
     const schema = this.findSchemaByKey(key)
-    switch (schema.type) {
-      case 'number':
-        return parseFloat(value)
-      case 'date':
-        return new Date(value).toDateString()
-      case 'boolean':
-        return (!!value).toString()
-      case 'custom':
-      case 'string':
-      default:
-        return value
+    const { formatter = {}, type } = schema
+    const { csv } = formatter
+    if (csv && typeof csv === 'function') {
+      return csv(value, key)
+    } else {
+      switch (type) {
+        case 'number':
+          return parseFloat(value)
+        case 'date':
+          return new Date(value).toDateString()
+        case 'boolean':
+          return (!!value).toString()
+        case 'string':
+        default:
+          return value
+      }
     }
   }
 
@@ -234,29 +239,34 @@ export default class CSV {
         const arr = str.split(',')
         arr.map((s, index) => {
           s = s.substring(1, s.length - 1)
-          const column = columns[index]
-          switch (column.type) {
-            case 'number':
-              item[column.key] = parseFloat(s)
-              break
-            case 'boolean':
-              let val
-              if (s === 'true') {
-                val = true
-              } else if (s === 'false') {
-                val = false
-              } else {
-                val = !!s
-              }
-              item[column.key] = val
-              break
-            case 'date':
-              item[column.key] = new Date(s)
-              break
-            case 'string':
-            case 'custom':
-            default:
-              item[column.key] = s
+          const schema = columns[index]
+          const { formatter = {}, type, key } = schema
+          const { json } = formatter
+          if (json && typeof json === 'function') {
+            item[key] = json(s, key)
+          } else {
+            switch (type) {
+              case 'number':
+                item[key] = parseFloat(s)
+                break
+              case 'boolean':
+                let val
+                if (s === 'true') {
+                  val = true
+                } else if (s === 'false') {
+                  val = false
+                } else {
+                  val = !!s
+                }
+                item[key] = val
+                break
+              case 'date':
+                item[key] = new Date(s)
+                break
+              case 'string':
+              default:
+                item[key] = s
+            }
           }
         })
         return item
