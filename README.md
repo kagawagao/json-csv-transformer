@@ -18,7 +18,7 @@ npm install json-csv-transformer --save
 ## Use
 
 ```javascript
-const CSV = require('json-csv-transformer')
+import CSV from 'json-csv-transformer'
 
 const csv = new CSV({
   schema: [{
