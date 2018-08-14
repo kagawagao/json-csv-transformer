@@ -1,4 +1,4 @@
-const CSV = require('../src')
+const CSV = require('../src').default
 const fs = require('fs')
 const path = require('path')
 

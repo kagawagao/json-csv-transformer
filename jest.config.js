@@ -9,5 +9,6 @@ module.exports = {
   'moduleDirectories': ['node_modules', '<rootDir>', '<rootDir>/src'],
   'globals': {
     'NODE_ENV': 'test'
-  }
+  },
+  'testURL': 'http://localhost'
 }
