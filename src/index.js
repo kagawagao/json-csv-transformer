@@ -103,15 +103,16 @@ export default class CSV {
    * @desc format value
    * @param {any} value
    * @param {string} key
+   * @param {Object<any>} item
    * @return {string|number} formated value
    * @memberof CSV
    */
-  format = (value: any, key: string): string | number => {
+  format = (value: any, key: string, item: any): string | number => {
     const schema = this.findSchemaByKey(key)
     const { formatter = {}, type } = schema
     const { csv } = formatter
     if (csv && typeof csv === 'function') {
-      return csv(value, key)
+      return csv(value, key, item)
     } else {
       switch (type) {
         case 'number':
@@ -176,7 +177,7 @@ export default class CSV {
     }
 
     items.forEach((item) => {
-      csvArray.push(keys.map((key) => '"' + this.format(item[key], key) + '"').join(','))
+      csvArray.push(keys.map((key) => '"' + this.format(item[key], key, item) + '"').join(','))
     })
 
     const str = csvArray.join('\n')
@@ -244,7 +245,7 @@ export default class CSV {
           const { formatter = {}, type, key } = schema
           const { json } = formatter
           if (json && typeof json === 'function') {
-            item[key] = json(s, key)
+            item[key] = json(s, key, arr)
           } else {
             switch (type) {
               case 'number':
