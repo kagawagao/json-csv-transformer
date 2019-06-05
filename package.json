@@ -1,6 +1,6 @@
 {
   "name": "json-csv-transformer",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "transform json to csv, and vice versa",
   "main": "lib/index.js",
   "module": "es/index.js",
