@@ -2,32 +2,39 @@ const CSV = require('../src').default
 const fs = require('fs')
 const path = require('path')
 
-const schema = [{
-  key: 'xxx'
-}, {
-  key: 'yyy',
-  type: 'boolean'
-}, {
-  key: 'zzz',
-  type: 'number'
-}, {
-  key: 'aaa',
-  type: 'date'
-}, {
-  key: 'bbb',
-  type: 'string'
-}, {
-  key: 'ccc',
-  type: 'custom',
-  formatter: {
-    csv: (value, key, items) => {
-      return 'cc'
-    },
-    json: (value, key, items) => {
-      return 'c'
+const schema = [
+  {
+    key: 'xxx'
+  },
+  {
+    key: 'yyy',
+    type: 'boolean'
+  },
+  {
+    key: 'zzz',
+    type: 'number'
+  },
+  {
+    key: 'aaa',
+    type: 'date'
+  },
+  {
+    key: 'bbb',
+    type: 'string'
+  },
+  {
+    key: 'ccc',
+    type: 'custom',
+    formatter: {
+      csv: (value, key, items) => {
+        return 'cc'
+      },
+      json: (value, key, items) => {
+        return 'c'
+      }
     }
   }
-}]
+]
 
 describe('CSV', () => {
   test('should create correct CSV instance', () => {
@@ -56,7 +63,7 @@ describe('CSV', () => {
   test('should throw error if schema is invalid', () => {
     const create = () => {
       return new CSV({
-        schema: [{key: ''}]
+        schema: [{ key: '' }]
       })
     }
 
@@ -85,56 +92,74 @@ describe('CSV', () => {
     })
     const items = require('./data.json')
     csv.parse(items)
-    expect(csv.toString()).toEqual('"xxx","yyy","zzz","aaa","bbb","ccc"\n"xxx","false","2","Mon Jan 01 2018","bbb","cc"\n"xxx","false","3","Mon Jan 01 2018","bbb","cc"')
+    expect(csv.toString()).toEqual(
+      '"xxx","yyy","zzz","aaa","bbb","ccc"\n"xxx","false","2","Mon Jan 01 2018","bbb","cc"\n"xxx","false","3","Mon Jan 01 2018","bbb","cc"'
+    )
   })
 
   test('should convert correct with no header', () => {
     const csv = new CSV({
-      schema: [{
-        key: 'xxx',
-        type: 'string'
-      }, {
-        key: 'yyy',
-        type: 'boolean'
-      }, {
-        key: 'zzz',
-        type: 'number'
-      }, {
-        key: 'aaa',
-        type: 'date'
-      }, {
-        key: 'bbb',
-        type: 'string'
-      }, {
-        key: 'ccc'
-      }],
+      schema: [
+        {
+          key: 'xxx',
+          type: 'string'
+        },
+        {
+          key: 'yyy',
+          type: 'boolean'
+        },
+        {
+          key: 'zzz',
+          type: 'number'
+        },
+        {
+          key: 'aaa',
+          type: 'date'
+        },
+        {
+          key: 'bbb',
+          type: 'string'
+        },
+        {
+          key: 'ccc'
+        }
+      ],
       withHeader: false
     })
     const items = require('./data.json')
     csv.parse(items)
-    expect(csv.toString()).toEqual('"xxx","false","2","Mon Jan 01 2018","bbb","ccc"\n"xxx","false","3","Mon Jan 01 2018","bbb","ccc"')
+    expect(csv.toString()).toEqual(
+      '"xxx","false","2","Mon Jan 01 2018","bbb","ccc"\n"xxx","false","3","Mon Jan 01 2018","bbb","ccc"'
+    )
   })
 
-  test('should parse correct', (done) => {
+  test('should parse correct', done => {
     const csv = new CSV({
-      schema: [{
-        key: 'xxx',
-        type: 'string'
-      }, {
-        key: 'yyy',
-        type: 'boolean'
-      }, {
-        key: 'zzz',
-        type: 'number'
-      }, {
-        key: 'aaa',
-        type: 'date'
-      }, {
-        key: 'bbb',
-        type: 'string'
-      }, {
-        key: 'ccc'
-      }],
+      schema: [
+        {
+          key: 'xxx',
+          type: 'string'
+        },
+        {
+          key: 'yyy',
+          type: 'boolean'
+        },
+        {
+          key: 'zzz',
+          type: 'number'
+        },
+        {
+          key: 'aaa',
+          type: 'date'
+        },
+        {
+          key: 'bbb',
+          type: 'string'
+        },
+        {
+          key: 'ccc'
+        }
+      ],
       withHeader: true
     })
     expect(csv.toJSON()).toEqual([])
@@ -153,7 +178,7 @@ describe('CSV', () => {
     })
   })
 
-  test('should parse correct', (done) => {
+  test('should parse correct', done => {
     const csv = new CSV({
       schema
     })
@@ -172,7 +197,7 @@ describe('CSV', () => {
     })
   })
 
-  test('should parse correct if value is not boolean but type is boolean', (done) => {
+  test('should parse correct if value is not boolean but type is boolean', done => {
     const csv = new CSV({
       schema
     })
@@ -191,24 +216,27 @@ describe('CSV', () => {
     })
   })
 
-  test('should parse correct if csv file has no header', (done) => {
+  test('should parse correct if csv file has no header', done => {
     const csv = new CSV({
       schema,
       withHeader: false
     })
     expect(csv.toJSON()).toEqual([])
 
-    fs.readFile(path.resolve(__dirname, './data-no-header.csv'), (err, data) => {
-      if (err) {
-        throw err
-      }
+    fs.readFile(
+      path.resolve(__dirname, './data-no-header.csv'),
+      (err, data) => {
+        if (err) {
+          throw err
+        }
 
-      csv.parse(data)
-      const originData = require('./data3.json')
-      originData[0].aaa = new Date(originData[0].aaa)
-      expect(csv.toJSON()).toEqual(originData)
-      done()
-    })
+        csv.parse(data)
+        const originData = require('./data3.json')
+        originData[0].aaa = new Date(originData[0].aaa)
+        expect(csv.toJSON()).toEqual(originData)
+        done()
+      }
+    )
   })
 
   test('should throw error is parse failed', () => {
@@ -229,7 +257,9 @@ describe('CSV', () => {
     })
     const items = require('./data.json')
     csv.convert(items)
-    expect(csv.toString()).toEqual('"xxx","yyy","zzz","aaa","bbb","ccc"\n"xxx","false","2","Mon Jan 01 2018","bbb","cc"\n"xxx","false","3","Mon Jan 01 2018","bbb","cc"')
+    expect(csv.toString()).toEqual(
+      '"xxx","yyy","zzz","aaa","bbb","ccc"\n"xxx","false","2","Mon Jan 01 2018","bbb","cc"\n"xxx","false","3","Mon Jan 01 2018","bbb","cc"'
+    )
   })
 
   test('should return url in getDataURL', () => {
