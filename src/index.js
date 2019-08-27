@@ -16,31 +16,31 @@ export default class CSV {
    * @type {Array<Schema>}
    * @memberof CSV
    */
-  schema: Array<Schema>;
+  schema: Array<Schema>
   /**
    * @desc data buffer
    * @type {?Buffer}
    * @memberof CSV
    */
-  buffer: ?Buffer;
+  buffer: ?Buffer
   /**
    * @desc encoding
    * @type {string}
    * @memberof CSV
    */
-  encoding: string;
+  encoding: string
   /**
    * @desc csv data string
    * @type {?string}
    * @memberof CSV
    */
-  data: string;
+  data: string
   /**
    * @desc generate csv with header
    * @type {boolean}
    * @memberof CSV
    */
-  withHeader: boolean;
+  withHeader: boolean
   /**
    * @desc Creates an instance of CSV.
    * @param {CSVOption} option option
@@ -49,9 +49,9 @@ export default class CSV {
    * @param {boolean} [option.widthHeader=true] with header
    * @memberof CSV
    */
-  constructor (option: CSVOption) {
+  constructor(option: CSVOption) {
     const { schema, encoding = 'utf8', withHeader = true } = option
-    this.checkSchema((schema))
+    this.checkSchema(schema)
     this.checkEncoding(encoding)
     this.schema = schema
     this.encoding = encoding
@@ -92,11 +92,13 @@ export default class CSV {
    * @memberof CSV
    */
   findSchemaByKey = (key: string): Schema => {
-    return this.schema.find((item) => item.key === key) || {
-      key,
-      type: 'string',
-      label: key
-    }
+    return (
+      this.schema.find(item => item.key === key) || {
+        key,
+        type: 'string',
+        label: key,
+      }
+    )
   }
 
   /**
@@ -160,14 +162,17 @@ export default class CSV {
    * @return {string} csv data string
    * @memberof CSV
    */
-  convert = (items: Array<{[x: string]: any}>, option?: CustomOption = {}): string => {
+  convert = (
+    items: Array<{ [x: string]: any }>,
+    option?: CustomOption = {}
+  ): string => {
     this.encoding = option.encoding || 'utf8'
     const columns = this.schema
     const csvArray = []
     const header = []
     const keys = []
 
-    columns.forEach((column) => {
+    columns.forEach(column => {
       keys.push(column.key)
       header.push('"' + (column.label || column.key) + '"')
     })
@@ -176,8 +181,10 @@ export default class CSV {
       csvArray.push(header)
     }
 
-    items.forEach((item) => {
-      csvArray.push(keys.map((key) => '"' + this.format(item[key], key, item) + '"').join(','))
+    items.forEach(item => {
+      csvArray.push(
+        keys.map(key => '"' + this.format(item[key], key, item) + '"').join(',')
+      )
     })
 
     const str = csvArray.join('\n')
@@ -216,7 +223,9 @@ export default class CSV {
    * @memberof CSV
    */
   getDataURL = (): string => {
-    return this.buffer ? `data:text/csv;base64,${this.buffer.toString('base64')}` : ''
+    return this.buffer
+      ? `data:text/csv;base64,${this.buffer.toString('base64')}`
+      : ''
   }
 
   /**
@@ -224,12 +233,14 @@ export default class CSV {
    * @return {Array<Object>} json
    * @memberof CSV
    */
-  toJSON = (): Array<{[x: string]: any}> => {
+  toJSON = (): Array<{ [x: string]: any }> => {
     const columns = this.schema
     if (!this.data) {
       return []
     } else {
-      const data = this.data.replace(/\\r\\n|\\r/g, '\n').replace(/;|\\t|\|\^/g, ',')
+      const data = this.data
+        .replace(/\\r\\n|\\r/g, '\n')
+        .replace(/;|\\t|\|\^/g, ',')
       let temp = data.split('\n')
       if (this.withHeader) {
         temp.shift()
@@ -239,6 +250,7 @@ export default class CSV {
       temp = temp.map((str: string) => {
         const item = {}
         const arr = str.split(',')
+        let val
         arr.map((s, index) => {
           s = s.substring(1, s.length - 1)
           const schema = columns[index]
@@ -252,7 +264,6 @@ export default class CSV {
                 item[key] = parseFloat(s)
                 break
               case 'boolean':
-                let val
                 if (s === 'true') {
                   val = true
                 } else if (s === 'false') {

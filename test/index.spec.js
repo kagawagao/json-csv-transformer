@@ -4,23 +4,23 @@ const path = require('path')
 
 const schema = [
   {
-    key: 'xxx'
+    key: 'xxx',
   },
   {
     key: 'yyy',
-    type: 'boolean'
+    type: 'boolean',
   },
   {
     key: 'zzz',
-    type: 'number'
+    type: 'number',
   },
   {
     key: 'aaa',
-    type: 'date'
+    type: 'date',
   },
   {
     key: 'bbb',
-    type: 'string'
+    type: 'string',
   },
   {
     key: 'ccc',
@@ -31,15 +31,15 @@ const schema = [
       },
       json: (value, key, items) => {
         return 'c'
-      }
-    }
-  }
+      },
+    },
+  },
 ]
 
 describe('CSV', () => {
   test('should create correct CSV instance', () => {
     const csv = new CSV({
-      schema
+      schema,
     })
 
     expect(csv).toHaveProperty('schema', schema)
@@ -53,7 +53,7 @@ describe('CSV', () => {
     const create = () => {
       return new CSV({
         schema,
-        encoding: 'xxx'
+        encoding: 'xxx',
       })
     }
 
@@ -63,7 +63,7 @@ describe('CSV', () => {
   test('should throw error if schema is invalid', () => {
     const create = () => {
       return new CSV({
-        schema: [{ key: '' }]
+        schema: [{ key: '' }],
       })
     }
 
@@ -72,7 +72,7 @@ describe('CSV', () => {
 
   test('findSchemaByKey should work as expect', () => {
     const csv = new CSV({
-      schema
+      schema,
     })
 
     const schema1 = csv.findSchemaByKey('xxx')
@@ -82,13 +82,13 @@ describe('CSV', () => {
     expect(schema2).toEqual({
       key: 'x',
       label: 'x',
-      type: 'string'
+      type: 'string',
     })
   })
 
   test('should convert correct', () => {
     const csv = new CSV({
-      schema
+      schema,
     })
     const items = require('./data.json')
     csv.parse(items)
@@ -102,29 +102,29 @@ describe('CSV', () => {
       schema: [
         {
           key: 'xxx',
-          type: 'string'
+          type: 'string',
         },
         {
           key: 'yyy',
-          type: 'boolean'
+          type: 'boolean',
         },
         {
           key: 'zzz',
-          type: 'number'
+          type: 'number',
         },
         {
           key: 'aaa',
-          type: 'date'
+          type: 'date',
         },
         {
           key: 'bbb',
-          type: 'string'
+          type: 'string',
         },
         {
-          key: 'ccc'
-        }
+          key: 'ccc',
+        },
       ],
-      withHeader: false
+      withHeader: false,
     })
     const items = require('./data.json')
     csv.parse(items)
@@ -138,29 +138,29 @@ describe('CSV', () => {
       schema: [
         {
           key: 'xxx',
-          type: 'string'
+          type: 'string',
         },
         {
           key: 'yyy',
-          type: 'boolean'
+          type: 'boolean',
         },
         {
           key: 'zzz',
-          type: 'number'
+          type: 'number',
         },
         {
           key: 'aaa',
-          type: 'date'
+          type: 'date',
         },
         {
           key: 'bbb',
-          type: 'string'
+          type: 'string',
         },
         {
-          key: 'ccc'
-        }
+          key: 'ccc',
+        },
       ],
-      withHeader: true
+      withHeader: true,
     })
     expect(csv.toJSON()).toEqual([])
 
@@ -180,7 +180,7 @@ describe('CSV', () => {
 
   test('should parse correct', done => {
     const csv = new CSV({
-      schema
+      schema,
     })
     expect(csv.toJSON()).toEqual([])
 
@@ -199,7 +199,7 @@ describe('CSV', () => {
 
   test('should parse correct if value is not boolean but type is boolean', done => {
     const csv = new CSV({
-      schema
+      schema,
     })
     expect(csv.toJSON()).toEqual([])
 
@@ -219,7 +219,7 @@ describe('CSV', () => {
   test('should parse correct if csv file has no header', done => {
     const csv = new CSV({
       schema,
-      withHeader: false
+      withHeader: false,
     })
     expect(csv.toJSON()).toEqual([])
 
@@ -241,7 +241,7 @@ describe('CSV', () => {
 
   test('should throw error is parse failed', () => {
     const csv = new CSV({
-      schema
+      schema,
     })
 
     const parse = () => {
@@ -253,7 +253,7 @@ describe('CSV', () => {
 
   test('should convert correct if directly call convert', () => {
     const csv = new CSV({
-      schema
+      schema,
     })
     const items = require('./data.json')
     csv.convert(items)
@@ -264,7 +264,7 @@ describe('CSV', () => {
 
   test('should return url in getDataURL', () => {
     const csv = new CSV({
-      schema
+      schema,
     })
     expect(csv.getDataURL()).toBe('')
     const items = require('./data.json')

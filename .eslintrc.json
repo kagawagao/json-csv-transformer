@@ -1,12 +1,11 @@
 {
   "extends": [
     "standard",
-    "plugin:flowtype/recommended"
+    "plugin:flowtype/recommended",
+    "plugin:prettier/recommended"
   ],
   "parser": "babel-eslint",
-  "plugins": [
-    "flowtype"
-  ],
+  "plugins": ["flowtype", "prettier"],
   "settings": {
     "flowtyped": {
       "onlyFilesWithFlowAnnotation": true

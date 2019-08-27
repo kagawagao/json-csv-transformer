@@ -1,15 +1,18 @@
-[{
-  "xxx": "xxx",
-  "yyy": false,
-  "zzz": 2,
-  "aaa": "2018-1-1",
-  "bbb": "bbb",
-  "ccc": "ccc"
-}, {
-  "xxx": "xxx",
-  "yyy": false,
-  "zzz": 3,
-  "aaa": "2018-1-1",
-  "bbb": "bbb",
-  "ccc": "ccc"
-}]
+[
+  {
+    "xxx": "xxx",
+    "yyy": false,
+    "zzz": 2,
+    "aaa": "2018-1-1",
+    "bbb": "bbb",
+    "ccc": "ccc"
+  },
+  {
+    "xxx": "xxx",
+    "yyy": false,
+    "zzz": 3,
+    "aaa": "2018-1-1",
+    "bbb": "bbb",
+    "ccc": "ccc"
+  }
+]
