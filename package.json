@@ -67,7 +67,7 @@
     "prettier": "^1.18.2"
   },
   "dependencies": {
-    "@babel/runtime": "^7.5.5",
+    "@babel/runtime": "^7.26.10",
     "iconv-lite": "^0.5.0",
     "jschardet": "^2.1.0"
   },
